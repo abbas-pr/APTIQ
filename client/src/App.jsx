@@ -11,6 +11,7 @@ import Leaderboard from './pages/Leaderboard.jsx';
 import AdminLogin from './pages/AdminLogin.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import AdminQuizForm from './pages/AdminQuizForm.jsx';
+import History from './pages/History.jsx';
 
 export default function App() {
   return (
@@ -50,6 +51,15 @@ export default function App() {
           element={
             <ProtectedRoute role="user">
               <Leaderboard />
+            </ProtectedRoute>
+          }
+        />
+        
+    <Route
+          path="/history"
+          element={
+            <ProtectedRoute role="user">
+              <History />
             </ProtectedRoute>
           }
         />

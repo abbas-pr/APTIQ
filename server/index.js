@@ -10,12 +10,11 @@ import leaderboardRoutes from './routes/leaderboard.js';
 import adminRoutes from './routes/admin.js';
 
 const app = express();
-
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
 app.use(
   cors({
     origin: clientUrl,
-    credentials: true,
+    credentials: true
   })
 );
 app.use(express.json());

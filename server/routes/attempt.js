@@ -107,7 +107,50 @@ router.post('/submit', authenticate, async (req, res) => {
     res.status(500).json({ message: err.message || 'Submit failed' });
   }
 });
+/**user history */
 
+router.get('/history', authenticate, async (req, res) => {
+  try {
+    if (req.user.role !== 'user') {
+      return res.status(403).json({ message: 'Only for regular users' });
+    }
+    const attempts = await Attempt.find({ userId: req.user._id })
+      .populate('quizId', 'title isWeeklyContest')
+      .sort({ createdAt: -1 })
+      .lean();
+    res.json(attempts);
+  } catch (err) {
+    res.status(500).json({ message: err.message || 'Failed to load attempts' });
+  }
+});
+/**quizez no attemted */
+router.get('/notattened', authenticate, async (req, res) => {
+  try {
+    if (req.user.role !== 'user') {
+      return res.status(403).json({ message: 'Only for regular users' });
+    }
+    const attempts = await Attempt.find({ userId: req.user._id })
+      .distinct("quizId");
+    const quizz=await Quiz.find({_id:{$nin:attempts},isWeeklyContest:false});
+    res.json(quizz);
+  } catch (err) {
+    res.status(500).json({ message: err.message || 'Failed to load attempts' });
+  }
+});
+/**atemted quizzes */
+router.get('/attened', authenticate, async (req, res) => {
+  try {
+    if (req.user.role !== 'user') {
+      return res.status(403).json({ message: 'Only for regular users' });
+    }
+    const attempts = await Attempt.find({ userId: req.user._id })
+      .distinct("quizId")
+    const quiz=await Quiz.find({_id:{$in:attempts},isWeeklyContest:false});
+    res.json(quiz);
+  } catch (err) {
+    res.status(500).json({ message: err.message || 'Failed to load attempts' });
+  }
+});
 /** User's past attempts */
 router.get('/my', authenticate, async (req, res) => {
   try {

@@ -34,6 +34,9 @@ export default function Layout({ children }) {
                 <NavLink to="/leaderboard" className={linkClass}>
                   Leaderboard
                 </NavLink>
+                 <NavLink to="/history" className={linkClass} >
+              History
+            </NavLink>
               </>
             )}
             {user?.role === 'admin' && (
